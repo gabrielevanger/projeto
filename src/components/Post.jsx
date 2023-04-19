@@ -1,20 +1,26 @@
+import { format } from 'date-fns';
+
 import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
 
-export function Post() {
+export function Post({ author, publishedAt }) {
+    const publisedDateFormatted = format()
+
     return (
        <article className={styles.post}>
         <header>
             <div className={styles.author}>
-                <Avatar src="https://github.com/gabrielevanger.png" />
+                <Avatar src={author.avatarUrl} />
                 <div className={styles.authorInfor}>
-                    <strong>Gabriel Evangelista</strong>
-                    <span>Web Developer</span>
+                    <strong>{author.name}</strong>
+                    <span>{author.role}</span>
                 </div>
             </div>
 
-            <time title="11 de abril ás 17:38h" dateTime="2023-04-11  17:38:00">Publicado há 1h</time>
+            <time title="11 de abril ás 17:38h" dateTime="2023-04-11  17:38:00">Publicado há 1h
+                    {publisedDateFormatted}
+            </time>
 
         </header>
 
