@@ -31,7 +31,7 @@ export function Post() {
         </div>
 
         <form className={styles.commentForm}>
-            <strong>Deixe seu comentário</strong>
+            <strong>Deixe seu feedback</strong>
 
 
             <textarea 
