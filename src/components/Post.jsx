@@ -10,10 +10,11 @@ import { useState } from 'react';
 
 export function Post({ author, publishedAt, content }) {
     const [comments, setComments] = useState([
-        1,
-        2,
+      'Post muito bacana, hein?!'
     ])
     
+    const [newCommentText, setNewCommentText] = useState('')
+
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'",{
     locale: ptBR,
 })
@@ -26,7 +27,18 @@ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
         function handleCreateNewComment() {
             event.preventDefault()
             
-            setComments([...comments, comments.length + 1]);
+
+            setComments([...comments, newCommentText]);
+            setNewCommentText('');
+
+        
+
+        }
+
+        function handleNewCommentChange() {
+
+            setNewCommentText(event.target.value);
+            
         }
 
     return (
@@ -49,9 +61,9 @@ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
         <div className={styles.content}> 
             {content.map(line => {
                 if (line.type == 'paragraph'){
-                    return <p>{line.content}</p>;
+                    return <p key={line.content}>{line.content}</p>;
                 } else if (line.type =='link') {
-                    return <p><a href="#">{line.content} </a></p>
+                    return <p key={line.content}><a href="#">{line.content} </a></p>
                 }
             })}
         </div>
@@ -60,8 +72,11 @@ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
             <strong>Deixe seu feedback</strong>
 
 
-            <textarea 
+            <textarea  
+                name="comment"
                 placeholder="Deixe seu cometário"
+                value={newCommentText}
+                onChange={handleNewCommentChange}
             />
 
            <footer> 
@@ -72,7 +87,7 @@ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
 
         <div className={styles.commentList}>
             {comments.map(comment => {
-                return <Comment />
+                return <Comment key={index} content={comment} />
             })}
         </div>
 
