@@ -36,10 +36,30 @@ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
         }
 
         function handleNewCommentChange() {
+            event.target.setCustomValidity('');
 
             setNewCommentText(event.target.value);
             
         }
+
+
+        function handleNewCommentInvalid() {
+            event.target.setCustomValidity('Esse campo é obrigatório!')
+        }
+
+
+        function deleteComment(commentToDelete) {
+            const commentsWithoutDeletedOne = comments.filter(comment => {
+                return comment !== commentToDelete
+
+            })
+
+           setComments(commentsWithoutDeletedOne);
+
+        }
+
+        const isNewCommentEmpty = newCommentText.length == 0;
+
 
     return (
        <article className={styles.post}>
@@ -77,17 +97,26 @@ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
                 placeholder="Deixe seu cometário"
                 value={newCommentText}
                 onChange={handleNewCommentChange}
+                onInvalid={handleNewCommentInvalid}
+                required
             />
 
            <footer> 
-                <button type="submit">Publicar</button>
+                <button type="submit" disabled={isNewCommentEmpty}>
+                    Publicar</button>
            </footer>
         </form>
 
 
         <div className={styles.commentList}>
             {comments.map(comment => {
-                return <Comment key={index} content={comment} />
+                return (
+                    <Comment 
+                        key={comment} 
+                        content={comment}  
+                        onDeleteComment={deleteComment}
+                    />
+                )
             })}
         </div>
 
